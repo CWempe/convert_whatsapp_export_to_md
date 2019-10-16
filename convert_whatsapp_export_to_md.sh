@@ -18,6 +18,11 @@ find ${SOURCE} -type f -name "WhatsApp Chat *.txt" -print0 | while IFS= read -r 
   # copy txt file to md file
   cp "${SOURCE}/${CHATFILENAME}" "${SOURCE}/${CHATFILENAMEMD}"
 
+
+  # add new lines between messages
+  sed -i -e "/^[0-9][0-9].[0-9][0-9].[0-9][0-9], [0-9][0-9]:[0-9][0-9] - /i \ " "${SOURCE}/${CHATFILENAMEMD}"
+
+
   # find all other (media) files
   find ${SOURCE} -type f -name "*" -print0 | while IFS= read -r -d '' file; do
     FILENAME="$( basename "${file}")"
@@ -30,7 +35,7 @@ find ${SOURCE} -type f -name "WhatsApp Chat *.txt" -print0 | while IFS= read -r 
 
     
     # replace filenames in md file with image tags
-    sed -i -e "s/$FILENAME/![$FILENAME](.\/$FILENAME)/g" "${SOURCE}/${CHATFILENAMEMD}"
+    sed -i -e "s/$FILENAME (.*)/![$FILENAME](.\/$FILENAME)/g" "${SOURCE}/${CHATFILENAMEMD}"
 
   done
 done
