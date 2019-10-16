@@ -32,9 +32,11 @@ find ${SOURCE} -type f -name "WhatsApp Chat *.txt" -print0 | while IFS= read -r 
   # find all other (media) files
   find ${SOURCE} -type f -name "*" -print0 | while IFS= read -r -d '' file; do
     FILENAME="$( basename "${file}")"
+    EXTENSION="${FILENAME##*.}"
 
-    # Ignore .txt and .md files
-    if [[ "${FILENAME}" =~ .*\.(txt|md) ]]; then
+    # Ignore specific file types like txt, md and pdf
+    if [[ "${EXTENSION}" =~ (txt|md|pdf) ]]; then
+       echo "Ignore file \"${FILENAME}\"."
        continue
     fi
     echo "  File: ${FILENAME}"
