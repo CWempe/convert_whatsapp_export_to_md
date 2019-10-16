@@ -25,6 +25,9 @@ find ${SOURCE} -type f -name "WhatsApp Chat *.txt" -print0 | while IFS= read -r 
   # emphasis timestamp and sender name
   sed -i -e "s/^\([0-9][0-9].[0-9][0-9].[0-9][0-9], [0-9][0-9]:[0-9][0-9]\)\( -\) \(.*\):/*\1* \2 **\3**:/g"  "${SOURCE}/${CHATFILENAMEMD}"
 
+  # emphasis status messages
+  sed -i -e "s/^\([0-9][0-9].[0-9][0-9].[0-9][0-9], [0-9][0-9]:[0-9][0-9]\)\( -\) \([^:]*\)$/*\1* \2 *\3*:/g"  "${SOURCE}/${CHATFILENAMEMD}"
+
 
   # find all other (media) files
   find ${SOURCE} -type f -name "*" -print0 | while IFS= read -r -d '' file; do
